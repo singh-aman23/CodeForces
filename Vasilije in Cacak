@@ -1,0 +1,133 @@
+Input file: standard input
+Output file: standard output
+Time limit: 1 second
+Memory limit: 256 megabytes
+Aca and Milovan, two fellow competitive programmers, decided to give Vasilije a problem to test his skills.
+Vasilije is given three positive integers: n, k, and x, and he has to determine if he can choose k distinct
+integers between 1 and n, such that their sum is equal to x.
+Since Vasilije is now in the weirdest city in Serbia where Aca and Milovan live, Cacak, the problem seems
+weird to him. So he needs your help with this problem.
+Input
+The first line contains a single integer t (1 ≤ t ≤ 104
+) — the number of test cases.
+The only line of each test case contains three integers n, k and x (1 ≤ n ≤ 2 · 105
+, 1 ≤ k ≤ n,
+1 ≤ x ≤ 4 · 1010) — the maximum element he can choose, the number of elements he can choose and the
+sum he has to reach.
+Note that the sum of n over all test cases may exceed 2 · 105
+.
+Output
+For each test case output one line: ”YES”, if it is possible to choose k distinct integers between 1 and n,
+such that their sum is equal to x, and ”NO”, if it isn’t.
+You can output the answer in any case (for example, the strings ”yEs”, ”yes”, ”Yes”, and ”YES” will be
+recognized as a positive answer).
+
+import java.io.*;
+import java.util.*;
+
+public class CodeForces {
+    static final int MOD = (int) 1e9 + 7;
+    static final int INF = (int) 1e9;
+    static final long LINF = (long) 1e18;
+
+    public static void main(String[] args) throws IOException {
+        FastIO io = new FastIO();
+        int t = 1;
+        t = io.nextInt(); 
+        while (t-- > 0) {
+            solve(io);
+        }
+        io.close(); 
+    }
+
+    static void solve(FastIO io) throws IOException {
+        long n = io.nextLong();
+        long k = io.nextLong();
+        long x = io.nextLong();
+        long l = k * (k + 1) / 2;
+        long h = k * (2 * n - k + 1) / 2;
+        if((l <= x) && (x <= h)){
+            io.println("Yes");
+        }else{
+            io.println("No");
+        }
+
+        // String s = io.next(); 
+        // int[] a = io.readIntArray(n);
+    }
+
+    // --------------- Fast I/O Class ----------------
+    static class FastIO {
+        private final BufferedReader br;
+        private final PrintWriter pw;
+        private StringTokenizer st;
+
+        public FastIO() {
+            br = new BufferedReader(new InputStreamReader(System.in));
+            pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+            st = new StringTokenizer(""); 
+        }
+
+        public String next() throws IOException {
+            while (!st.hasMoreTokens()) {
+                String line = br.readLine();
+                if (line == null)
+                    return null;
+                st = new StringTokenizer(line);
+            }
+            return st.nextToken();
+        }
+
+        public int nextInt() throws IOException {
+            return Integer.parseInt(next());
+        }
+
+        public long nextLong() throws IOException {
+            return Long.parseLong(next());
+        }
+
+        public double nextDouble() throws IOException {
+            return Double.parseDouble(next());
+        }
+
+        public String nextLine() throws IOException {
+            st = new StringTokenizer(""); 
+            return br.readLine();
+        }
+
+        public int[] readIntArray(int n) throws IOException {
+            int[] arr = new int[n];
+            for (int i = 0; i < n; i++)
+                arr[i] = nextInt();
+            return arr;
+        }
+
+        public long[] readLongArray(int n) throws IOException {
+            long[] arr = new long[n];
+            for (int i = 0; i < n; i++) arr[i] = nextLong();
+            return arr;
+        }
+
+        public char[] readCharArray() throws IOException {
+            return next().toCharArray();
+        }
+
+        public void print(Object o) {
+            pw.print(o);
+        }
+
+        public void println(Object o) {
+            pw.println(o);
+        }
+
+        public void println() {
+            pw.println();
+        }
+
+        public void close() {
+            pw.flush();
+            pw.close();
+        }
+    }
+
+}

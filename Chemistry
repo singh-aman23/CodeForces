@@ -1,0 +1,152 @@
+You are given a string s of length n, consisting of lowercase Latin letters, and an integer k.
+You need to check if it is possible to remove exactly k characters from the string s in such a way that the
+remaining characters can be rearranged to form a palindrome. Note that you can reorder the remaining
+characters in any way.
+A palindrome is a string that reads the same forwards and backwards. For example, the strings “z”, “aaa”,
+“aba”, “abccba” are palindromes, while the strings “codeforces”, “reality”, “ab” are not.
+Input
+Each test consists of multiple test cases. The first line contains a single integer t (1 ≤ t ≤ 104
+) — the
+number of the test cases. This is followed by their description.
+The first line of each test case contains two integers n and k (0 ≤ k < n ≤ 105
+) — the length of the string
+s and the number of characters to be deleted.
+The second line of each test case contains a string s of length n, consisting of lowercase Latin letters.
+It is guaranteed that the sum of n over all test cases does not exceed 2 · 105
+.
+Output
+For each test case, output “YES” if it is possible to remove exactly k characters from the string s in such
+a way that the remaining characters can be rearranged to form a palindrome, and “NO” otherwise.
+You can output the answer in any case (uppercase or lowercase). For example, the strings “yEs”, “yes”,
+“Yes”, and “YES” will be recognized as positive answers.
+
+import java.io.*;
+import java.util.*;
+
+public class CodeForces {
+    static final int MOD = (int) 1e9 + 7;
+    static final int INF = (int) 1e9;
+    static final long LINF = (long) 1e18;
+
+    public static void main(String[] args) throws IOException {
+        FastIO io = new FastIO();
+        int t = 1;
+        t = io.nextInt(); 
+        while (t-- > 0) {
+            solve(io);
+        }
+        io.close(); 
+    }
+
+    static void solve(FastIO io) throws IOException {
+        int n = io.nextInt();
+        int k = io.nextInt();
+        String s = io.next(); 
+        // int[] a = io.readIntArray(n);
+
+
+        int c = 0;
+        boolean found = false;
+        Map<Character, Integer> map = new HashMap<>();
+        Set<Character> set = new HashSet<>();
+        List<Character> list = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            map.put(s.charAt(i), map.getOrDefault(s.charAt(i), 0) + 1);
+            set.add(s.charAt(i));
+        }
+        for (int i = 0; i < n; i++) {
+            if (set.contains(s.charAt(i))) {
+                if (map.get(s.charAt(i)) % 2 == 1)
+                    list.add(s.charAt(i));
+                set.remove(s.charAt(i));
+                c += map.get(s.charAt(i));
+            }
+        }
+        if (k == c) {
+            io.println("YES");
+        } else {
+            for (int i = 0; i < list.size(); i++) {
+                if (k == (c - map.get(list.get(i)))) {
+                    io.println("YES");
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                if (k < list.size() - 1) {
+                    io.println("NO");
+                } else {
+                    io.println("YES");
+
+                }
+            }
+        }
+
+
+    }
+
+    // --------------- Fast I/O Class (Java 21 compatible) ----------------
+    static class FastIO {
+        private final BufferedReader br;
+        private final PrintWriter pw;
+        private StringTokenizer st;
+
+        public FastIO() {
+            br = new BufferedReader(new InputStreamReader(System.in));
+            pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+            st = new StringTokenizer(""); 
+        }
+
+        public String next() throws IOException {
+            while (!st.hasMoreTokens()) {
+                String line = br.readLine();
+                if (line == null)
+                    return null;
+                st = new StringTokenizer(line);
+            }
+            return st.nextToken();
+        }
+
+        public int nextInt() throws IOException {
+            return Integer.parseInt(next());
+        }
+
+        public long nextLong() throws IOException {
+            return Long.parseLong(next());
+        }
+
+        public double nextDouble() throws IOException {
+            return Double.parseDouble(next());
+        }
+
+        public String nextLine() throws IOException {
+            st = new StringTokenizer(""); 
+            return br.readLine();
+        }
+
+        public int[] readIntArray(int n) throws IOException {
+            int[] arr = new int[n];
+            for (int i = 0; i < n; i++)
+                arr[i] = nextInt();
+            return arr;
+        }
+
+        public void print(Object o) {
+            pw.print(o);
+        }
+
+        public void println(Object o) {
+            pw.println(o);
+        }
+
+        public void println() {
+            pw.println();
+        }
+
+        public void close() {
+            pw.flush();
+            pw.close();
+        }
+    }
+
+}

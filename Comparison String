@@ -1,0 +1,213 @@
+You are given a string s
+ of length n
+, where each character is either < or >.
+
+An array a
+ consisting of n+1
+ elements is compatible with the string s
+ if, for every i
+ from 1
+ to n
+, the character si
+ represents the result of comparing ai
+ and ai+1
+, i. e.:
+
+si
+ is < if and only if ai<ai+1
+;
+si
+ is > if and only if ai>ai+1
+.
+For example, the array [1,2,5,4,2]
+ is compatible with the string <<>>. There are other arrays with are compatible with that string, for example, [13,37,42,37,13]
+.
+
+The cost of the array is the number of different elements in it. For example, the cost of [1,2,5,4,2]
+ is 4
+; the cost of [13,37,42,37,13]
+ is 3
+.
+
+You have to calculate the minimum cost among all arrays which are compatible with the given string s
+.
+
+Input
+The first line contains one integer t
+ (1≤t≤500
+) — the number of test cases.
+
+Each test case consists of two lines:
+
+the first line contains one integer n
+ (1≤n≤100
+);
+the second line contains the string s
+, consisting of n
+ characters. Each character of s
+ is either < or >.
+Output
+For each test case, print one integer — the minimum cost among all arrays which are compatible with the given string s
+.
+
+Example
+InputCopy
+4
+4
+<<>>
+4
+>><<
+5
+>>>>>
+7
+<><><><
+OutputCopy
+3
+3
+6
+2
+Note
+In the first test case of the example, the array can be [13,37,42,37,13]
+.
+
+In the second test case of the example, the array can be [42,37,13,37,42]
+.
+import java.io.*;
+import java.util.*;
+
+public class CodeForces {
+    static final int MOD = (int) 1e9 + 7;
+    static final int INF = (int) 1e9;
+    static final long LINF = (long) 1e18;
+
+    public static void main(String[] args) throws IOException {
+        FastIO io = new FastIO();
+        int t = 1;
+        t = io.nextInt();
+        while (t-- > 0) {
+            solve(io);
+        }
+        io.close();
+    }
+
+    static void solve(FastIO io) throws IOException {
+        // int n = io.nextInt();
+        // int k = io.nextInt();
+        // String s = io.next();
+        // int[] a = io.readIntArray(n);
+
+        int n = io.nextInt();
+        String s = io.next();
+        int sum = 1, a = 1;
+        boolean inc = true, dec = true;
+        if (s.charAt(0) == '<') {
+            dec = false;
+        } else {
+            inc = false;
+        }
+        for (int i = 0; i < n; i++) {
+            char c = s.charAt(i);
+            if (inc) {
+                if (c == '<') {
+                    sum++;
+                    a = Math.max(a, sum);
+
+                } else {
+                    a = Math.max(a, sum);
+                    sum = 2;
+                    inc = !inc;
+                    dec = !dec;
+                }
+            } else {
+                if (c == '<') {
+                    a = Math.max(a, sum);
+                    sum = 2;
+                    inc = !inc;
+                    dec = !dec;
+                } else {
+                    sum++;
+                    a = Math.max(a, sum);
+
+                }
+            }
+        }
+        io.println(a);
+    }
+
+    // --------------- Fast I/O Class ----------------
+    static class FastIO {
+        private final BufferedReader br;
+        private final PrintWriter pw;
+        private StringTokenizer st;
+
+        public FastIO() {
+            br = new BufferedReader(new InputStreamReader(System.in));
+            pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+            st = new StringTokenizer("");
+        }
+
+        public String next() throws IOException {
+            while (!st.hasMoreTokens()) {
+                String line = br.readLine();
+                if (line == null)
+                    return null;
+                st = new StringTokenizer(line);
+            }
+            return st.nextToken();
+        }
+
+        public int nextInt() throws IOException {
+            return Integer.parseInt(next());
+        }
+
+        public long nextLong() throws IOException {
+            return Long.parseLong(next());
+        }
+
+        public double nextDouble() throws IOException {
+            return Double.parseDouble(next());
+        }
+
+        public String nextLine() throws IOException {
+            st = new StringTokenizer("");
+            return br.readLine();
+        }
+
+        public int[] readIntArray(int n) throws IOException {
+            int[] arr = new int[n];
+            for (int i = 0; i < n; i++)
+                arr[i] = nextInt();
+            return arr;
+        }
+
+        public long[] readLongArray(int n) throws IOException {
+            long[] arr = new long[n];
+            for (int i = 0; i < n; i++)
+                arr[i] = nextLong();
+            return arr;
+        }
+
+        public char[] readCharArray() throws IOException {
+            return next().toCharArray();
+        }
+
+        public void print(Object o) {
+            pw.print(o);
+        }
+
+        public void println(Object o) {
+            pw.println(o);
+        }
+
+        public void println() {
+            pw.println();
+        }
+
+        public void close() {
+            pw.flush();
+            pw.close();
+        }
+    }
+
+}
+
